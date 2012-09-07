@@ -11,7 +11,7 @@ jsdom.env('http://www.uesp.net/wiki/Skyrim:Guard',
 		var timer = 0;
 
 		var $skyrim_quotes = $('tr td').filter( function(element, index, array) {
-				if ( $(index).html().match(/".*"/) ) {
+				if ( $(index).html().match(/^".*"$/) ) {
 					return true;
 				} else {
 					return false;
