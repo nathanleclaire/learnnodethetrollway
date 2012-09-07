@@ -9,7 +9,7 @@ create table if not exists character (
 insert into character values (null, 'Guard');
 
 create table if not exists saying (
-	id INTEGER PRIMARY KEY,
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	content VARCHAR(175),
 	
 	character_id INTEGER,

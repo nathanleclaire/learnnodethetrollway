@@ -1,6 +1,10 @@
 var jsdom = require('jsdom');
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(':memory:');
+var db = new sqlite3.Database('/home/nathan/webdev/learnnodethetrollway/db/nodetroll.db');
+
+var CHARACTERS = {
+	Guard: 1
+};
 
 /* consumes jQuery object
    returns jQuery object */
@@ -41,12 +45,20 @@ jsdom.env('http://www.uesp.net/wiki/Skyrim:Guard',
 				}
 		});
 
+		var stmt = db.prepare('INSERT INTO saying VALUES (null, ?, ?)');
+
 		$skyrim_quotes.each( function() {
-			var scopedElem = this;
+			var $scopedElem = $(this);
+			var content = $scopedElem.html().stripHTMLSpecialChars();
+
 			setTimeout(function() {
-				console.log( $(scopedElem).html().stripHTMLSpecialChars().length );
+				console.log( content );
 			}, timer);
+
+			stmt.run( content, CHARACTERS['Guard'] );
 			timer += interval;
+
+
 
 		}); 
 	});
