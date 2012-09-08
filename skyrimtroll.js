@@ -1,7 +1,10 @@
 var jsdom = require('jsdom');
+var request = require('request');
+
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('/home/nathan/webdev/learnnodethetrollway/db/nodetroll.db');
 
+// Way to have no class, Nate
 var CHARACTERS = {
 	Guard: 1
 };
@@ -20,12 +23,16 @@ function stripTags($) {
 }
 
 String.prototype.stripHTMLSpecialChars = function () {
-		// There's a few quirks in the soup
-		var str = this.replace(/&lt;/, '');
-		str = str.replace(/&gt;/, '');
-		str = str.replace(/&nbsp;\[sic\]/, 'y');
+	// There's a few quirks in the soup
+	var str = this.replace(/&lt;/, '');
+	str = str.replace(/&gt;/, '');
+	str = str.replace(/&nbsp;\[sic\]/, 'y');
 
-		return str;
+	return str;
+}
+
+String.prototype.stripDoubleQuotes = function() {
+	return this.slice(1, this.length - 1);
 }
 
 jsdom.env('http://www.uesp.net/wiki/Skyrim:Guard', 
@@ -49,7 +56,7 @@ jsdom.env('http://www.uesp.net/wiki/Skyrim:Guard',
 
 		$skyrim_quotes.each( function() {
 			var $scopedElem = $(this);
-			var content = $scopedElem.html().stripHTMLSpecialChars();
+			var content = $scopedElem.html().stripHTMLSpecialChars().stripDoubleQuotes();
 
 			setTimeout(function() {
 				console.log( content );
