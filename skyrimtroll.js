@@ -4,10 +4,14 @@ var request = require('request');
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('/home/nathan/webdev/learnnodethetrollway/db/nodetroll.db');
 
+var util = require('util');
+
 // Way to have no class, Nate
 var CHARACTERS = {
 	Guard: 1
 };
+
+var user = 'theonewhoquestions';
 
 /* consumes jQuery object
    returns jQuery object */
@@ -52,17 +56,17 @@ jsdom.env('http://www.uesp.net/wiki/Skyrim:Guard',
 				}
 		});
 
-		var stmt = db.prepare('INSERT INTO saying VALUES (null, ?, ?)');
+		// var stmt = db.prepare('INSERT INTO saying VALUES (null, ?, ?)');
 
 		$skyrim_quotes.each( function() {
 			var $scopedElem = $(this);
 			var content = $scopedElem.html().stripHTMLSpecialChars().stripDoubleQuotes();
 
 			setTimeout(function() {
-				console.log( content );
+				// console.log( content );
 			}, timer);
 
-			stmt.run( content, CHARACTERS['Guard'] );
+			// stmt.run( content, CHARACTERS['Guard'] );
 			timer += interval;
 
 
@@ -70,6 +74,10 @@ jsdom.env('http://www.uesp.net/wiki/Skyrim:Guard',
 		}); 
 	});
 
-// 'http://www.reddit.com/user/theonewhoquestions.json'
+request('http://www.reddit.com/user/' + user + '.json', function(error, response, body) {
+	if (!error && response.statusCode === 200) {
+		var redditInfo = JSON.parse(body);
+		console.log( util.inspect(redditInfo, false, null) );
+	}
+});
 
-var user = 'theonewhoquestions';
