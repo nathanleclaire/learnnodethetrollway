@@ -49,7 +49,7 @@ jsdom.env('http://www.uesp.net/wiki/Skyrim:Guard',
 		$ = stripTags($);
 
 		var $skyrim_quotes = $('tr td').filter( function(element, index, array) {
-				return $(index).html().match(/^".*"$/)
+				return $(index).html().match(/^".*"$/);
 		});
 
 		// var stmt = db.prepare('INSERT INTO saying VALUES (null, ?, ?)');
